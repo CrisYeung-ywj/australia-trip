@@ -46,4 +46,5 @@ dialog{max-height:90dvh;overflow:auto;border:0;border-radius:24px;padding:20px;c
 @media(max-width:390px){.place-card,.meal-card{grid-template-columns:96px minmax(0,1fr)}.event-copy h3{font-size:15px}.nav-pill{padding:4px 7px}.nav-pill svg{display:none}.track-head p{display:none}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.route-chevron{transition:none}}@media print{.topbar,.bottom-nav,.datebar,.day-pager{display:none}.day-layout{display:block}main{padding:0}.event{break-inside:avoid}.event-card{border-color:#aaa}a{color:inherit}}
 
 
+.important-time{display:block;margin-top:8px;color:var(--blue);font-size:11px;font-weight:900;line-height:1.5}
 
