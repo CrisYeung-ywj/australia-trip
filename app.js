@@ -28,10 +28,10 @@ Object.assign(photos,{
 });
 const poseSource='https://www.xiaohongshu.com/discovery/item/69b91a1a00000000220035ef';
 const couplePoseIds=[];
-for(let page=2;page<=5;page++)for(let pose=1;pose<=16;pose++){const id='couple-'+page+'-'+String(pose).padStart(2,'0');couplePoseIds.push(id);photos[id]={cn:'情侣合照姿势 '+couplePoseIds.length,en:'小幅度万能站姿参考',source:poseSource,credit:'小红书 · 是呆呆鱼',src:'assets/poses/couple/'+id+'.webp',width:270,height:360};}
+for(let pose=1;pose<=16;pose++){const id='couple-'+String(pose).padStart(3,'0');couplePoseIds.push(id);photos[id]={cn:'情侣合照姿势 '+pose,en:'小幅度万能站姿参考',source:poseSource,credit:'小红书 · 是呆呆鱼',src:'assets/poses/couple/'+id+'.webp',width:540,height:720};}
 const soloPoseSource='https://www.xiaohongshu.com/discovery/item/6a24ce7f000000002101b4a0';
 const soloPoseIds=[];
-for(let page=1;page<=6;page++)for(let pose=1;pose<=4;pose++){const id='solo-'+String(page).padStart(2,'0')+'-'+pose;soloPoseIds.push(id);photos[id]={cn:'单人拍照姿势 '+soloPoseIds.length,en:'旅行单人姿势参考',source:soloPoseSource,credit:'小红书 · TT慧',src:'assets/poses/solo/'+id+'.webp',width:540,height:Math.round(1413/2)};}
+for(let pose=1;pose<=36;pose++){const id='solo-'+String(pose).padStart(3,'0');soloPoseIds.push(id);photos[id]={cn:'单人拍照姿势 '+pose,en:'旅行单人姿势参考',source:soloPoseSource,credit:'小红书 · TT慧',src:'assets/poses/solo/'+id+'.webp',width:540,height:707};}
 const poseCollections=[
  {id:'solo',name:'单人照片',note:'街道、公园与旅行场景的单人站姿参考。',photos:soloPoseIds,source:soloPoseSource},
  {id:'couple',name:'情侣合照',note:'小幅度万能站姿，适合街道、公园与海边。',photos:couplePoseIds,source:poseSource},
