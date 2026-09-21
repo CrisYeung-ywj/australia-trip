@@ -29,10 +29,13 @@ Object.assign(photos,{
 const poseSource='https://www.xiaohongshu.com/discovery/item/69b91a1a00000000220035ef';
 const couplePoseIds=[];
 for(let page=2;page<=5;page++)for(let pose=1;pose<=16;pose++){const id='couple-'+page+'-'+String(pose).padStart(2,'0');couplePoseIds.push(id);photos[id]={cn:'情侣合照姿势 '+couplePoseIds.length,en:'小幅度万能站姿参考',source:poseSource,credit:'小红书 · 是呆呆鱼',src:'assets/poses/couple/'+id+'.webp',width:270,height:360};}
+const soloPoseSource='https://www.xiaohongshu.com/discovery/item/6a24ce7f000000002101b4a0';
+const soloPoseIds=[];
+for(let page=1;page<=6;page++)for(let pose=1;pose<=4;pose++){const id='solo-'+String(page).padStart(2,'0')+'-'+pose;soloPoseIds.push(id);photos[id]={cn:'单人拍照姿势 '+soloPoseIds.length,en:'旅行单人姿势参考',source:soloPoseSource,credit:'小红书 · TT慧',src:'assets/poses/solo/'+id+'.webp',width:540,height:Math.round(1413/2)};}
 const poseCollections=[
- {id:'couple',name:'情侣合照',note:'小幅度万能站姿，适合街道、公园与海边。',photos:couplePoseIds},
- {id:'friends',name:'朋友合照',note:'双人朋友旅行姿势，图片待补充。',photos:[]},
- {id:'group',name:'四人合照',note:'四人旅行站位与互动姿势，图片待补充。',photos:[]}
+ {id:'solo',name:'单人照片',note:'街道、公园与旅行场景的单人站姿参考。',photos:soloPoseIds,source:soloPoseSource},
+ {id:'couple',name:'情侣合照',note:'小幅度万能站姿，适合街道、公园与海边。',photos:couplePoseIds,source:poseSource},
+ {id:'group',name:'多人合照',note:'朋友与多人旅行站位、互动姿势，图片待补充。',photos:[],source:''}
 ];
 const map=(a,b,mode)=>'https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(a)+'&destination='+encodeURIComponent(b)+'&travelmode='+mode;
 const searchMap=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
@@ -128,7 +131,7 @@ function render(){
 $('#dates').innerHTML=days.map(d=>'<a class="date-chip" href="#'+d.id+'"><b>'+d.date.split(' ')[0]+'</b><span>'+d.date.split(' ')[1]+'</span></a>').join('');
 document.addEventListener('click',e=>{const close=e.target.closest('[data-close]');if(close)$('#'+close.dataset.close).close();
  const segment=e.target.closest('[data-segment]');if(segment){const shell=segment.closest('.segment-shell');shell.querySelectorAll('[data-segment]').forEach(button=>button.setAttribute('aria-selected',String(button===segment)));shell.querySelectorAll('[data-segment-panel]').forEach(panel=>panel.hidden=panel.dataset.segmentPanel!==segment.dataset.segment);}
- const galleryButton=e.target.closest('[data-pose-gallery]');if(galleryButton){const collection=poseCollections.find(c=>c.id===galleryButton.dataset.poseGallery);lastFocus=galleryButton;$('#pose-title').textContent=collection.name;$('#pose-note').textContent=collection.note;$('#pose-gallery').innerHTML=collection.photos.length?collection.photos.map((id,i)=>'<button data-photo="'+id+'" aria-label="放大姿势'+(i+1)+'"><img src="'+photos[id].src+'" alt="'+collection.name+'姿势'+(i+1)+'" loading="lazy"><span>'+(i+1)+'</span></button>').join(''):'<div class="pose-gallery-empty">这个栏目的图片还没有补充。</div>';$('#pose-source').hidden=!collection.photos.length;$('#pose-source').href=poseSource;$('#pose-dialog').showModal();return;}
+ const galleryButton=e.target.closest('[data-pose-gallery]');if(galleryButton){const collection=poseCollections.find(c=>c.id===galleryButton.dataset.poseGallery);lastFocus=galleryButton;$('#pose-title').textContent=collection.name;$('#pose-note').textContent=collection.note;$('#pose-gallery').innerHTML=collection.photos.length?collection.photos.map((id,i)=>'<button data-photo="'+id+'" aria-label="放大姿势'+(i+1)+'"><img src="'+photos[id].src+'" alt="'+collection.name+'姿势'+(i+1)+'" loading="lazy"><span>'+(i+1)+'</span></button>').join(''):'<div class="pose-gallery-empty">这个栏目的图片还没有补充。</div>';$('#pose-source').hidden=!collection.photos.length;$('#pose-source').href=collection.source||'';$('#pose-dialog').showModal();return;}
  const photo=e.target.closest('[data-photo]');if(photo){const p=photos[photo.dataset.photo];lastFocus=photo;if($('#pose-dialog').open)$('#pose-dialog').close();$('#photo-title').textContent=p.cn;$('#photo-large').src=p.src;$('#photo-large').alt=p.cn;$('#photo-english').textContent=p.en;$('#photo-source').href=p.source;$('#photo-source').textContent='图片来源 · '+p.credit+' ↗';$('#photo-dialog').showModal();}});
 document.addEventListener('change',e=>{if(e.target.matches('[data-check]')){checked[e.target.dataset.check]=e.target.checked;try{localStorage.setItem('au-mobile-checks-v2',JSON.stringify(checked));}catch{$('#save-note').textContent='当前浏览器无法保存，勾选仅本次有效。';}}});
 document.querySelectorAll('dialog').forEach(d=>{d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});d.addEventListener('close',()=>{if(lastFocus?.isConnected)lastFocus.focus();});});
