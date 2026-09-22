@@ -3,6 +3,8 @@
   style.textContent = `
     .profile-guide{margin-top:18px}.profile-guide>h2{margin:0 0 5px;color:#102a43;font-size:18px}.profile-guide>.guide-intro{margin:0 0 12px;color:#6f7f92;font-size:12px;line-height:1.65}
     .guide-block{margin:0 0 12px;border:1px solid #e1e9ef;border-radius:20px;background:#fff;box-shadow:0 8px 22px rgba(16,42,67,.05);overflow:hidden}.guide-block>summary{display:flex;align-items:center;gap:10px;padding:15px 16px;color:#102a43;font-size:14px;font-weight:800;cursor:pointer;list-style:none}.guide-block>summary::-webkit-details-marker{display:none}.guide-block>summary span{display:grid;width:34px;height:34px;place-items:center;border-radius:12px;background:#edf6ff;font-size:18px}.guide-block>summary::after{content:'＋';margin-left:auto;color:#1685bb;font-size:18px}.guide-block[open]>summary::after{content:'－'}
+    .module-sticky-head{position:sticky!important;top:0;z-index:24;margin:-2px -18px 0!important;padding:0 18px;background:rgba(246,248,251,.96);backdrop-filter:blur(16px)}.segmented.module-sticky-tabs{position:sticky!important;top:54px;z-index:23;margin:0 -6px 16px!important;box-shadow:0 8px 14px rgba(16,42,67,.05)}
+    .basic-guide{margin-bottom:16px}.basic-guide .guide-content{padding-top:0}.basic-guide .utility-card,.basic-guide .info-card{margin:0 0 10px;border:0;box-shadow:none}.basic-guide .reference-links{margin:0 0 10px}.basic-guide .info-card:last-child{margin-bottom:0}
     .guide-content{padding:0 12px 14px}.guide-callout{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:12px;border-radius:14px;background:#fff4e8;color:#8c5019}.guide-callout strong{display:block;font-size:14px}.guide-callout small{display:block;margin-top:2px;font-size:10px}.guide-callout i{font-size:24px;font-style:normal}.declaration-grid{display:grid;gap:9px}.declaration-card{padding:12px;border-radius:15px}.declaration-card h3{display:flex;align-items:center;gap:6px;margin:0 0 9px;font-size:13px}.declaration-row{display:grid;grid-template-columns:58px 1fr;gap:7px;padding:6px 0;border-top:1px solid rgba(255,255,255,.7)}.declaration-row:first-of-type{border-top:0}.declaration-row b{font-size:9px;line-height:1.55}.declaration-row p{display:flex;flex-wrap:wrap;gap:5px;margin:0}.declaration-row span{padding:4px 7px;border-radius:999px;background:rgba(255,255,255,.8);font-size:9px;font-weight:700;line-height:1.25}.declare{background:#fff4dc;color:#805300}.allowed{background:#eaf8ef;color:#217644}.banned{background:#fff0f0;color:#a83636}.limit-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:5px}.limit-grid div{padding:8px 2px;border-radius:10px;background:rgba(255,255,255,.82);text-align:center}.limit-grid strong{display:block;font-size:11px}.limit-grid small{font-size:8px}.guide-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.guide-links a{padding:8px 10px;border-radius:999px;background:#eaf4ff;color:#0878bd;font-size:11px;font-weight:700;text-decoration:none}
     .app-guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.travel-app{padding:12px;border:1px solid #e2eaf0;border-radius:16px;background:#f8fbfd}.travel-app header{display:flex;align-items:center;gap:8px}.travel-app i{display:grid;width:34px;height:34px;place-items:center;border-radius:11px;background:#fff;font-size:20px;font-style:normal;box-shadow:0 3px 10px rgba(16,42,67,.08)}.travel-app b{color:#102a43;font-size:12px}.travel-app small{display:block;margin-top:2px;color:#1685bb;font-size:9px;font-weight:700}.travel-app p{margin:8px 0 0;color:#60758b;font-size:10px;line-height:1.55}.travel-app a{color:inherit;text-decoration:none}.app-skip{margin-top:10px;padding:10px 12px;border-radius:14px;background:#f2f5f7;color:#6f7f92;font-size:11px;line-height:1.65}
     @media(max-width:380px){.app-guide-grid{grid-template-columns:1fr}}
@@ -12,8 +14,23 @@
   const app = (icon, name, badge, text, url) => `<article class="travel-app"><a href="${url}" target="_blank" rel="noopener"><header><i>${icon}</i><span><b>${name}</b><small>${badge}</small></span></header><p>${text}</p></a></article>`;
 
   function mount() {
+    const currentView = location.hash.slice(1);
+    if (currentView === 'profile' || currentView === 'shop-photo') {
+      const main = document.getElementById('main');
+      main.querySelector('.module-page-head')?.classList.add('module-sticky-head');
+      main.querySelector('.segmented')?.classList.add('module-sticky-tabs');
+    }
     const panel = document.querySelector('[data-segment-panel="my-practical"]');
     if (!panel || panel.querySelector('.profile-guide')) return;
+    const practicalParts = [...panel.children].filter(node => node.matches('.utility-card, .reference-links, .info-card'));
+    if (practicalParts.length) {
+      const basic = document.createElement('details');
+      basic.className = 'guide-block basic-guide';
+      basic.innerHTML = '<summary><span>ℹ️</span>基础实用信息</summary><div class="guide-content"></div>';
+      panel.insertBefore(basic, practicalParts[0]);
+      const content = basic.querySelector('.guide-content');
+      practicalParts.forEach(node => content.appendChild(node));
+    }
     panel.insertAdjacentHTML('beforeend', `
       <section class="profile-guide">
         <h2>入境申报与旅行工具</h2>
@@ -67,6 +84,7 @@
   }
 
   new MutationObserver(mount).observe(document.getElementById('main'), { childList: true, subtree: true });
+  window.addEventListener('hashchange', mount);
   mount();
 })();
 
