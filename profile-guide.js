@@ -33,8 +33,6 @@
     }
     panel.insertAdjacentHTML('beforeend', `
       <section class="profile-guide">
-        <h2>入境申报与旅行工具</h2>
-        <p class="guide-intro">按这次行程精简整理。入境政策可能调整，拿不准的物品直接申报。</p>
         <details class="guide-block" open>
           <summary><span>🛂</span>澳洲入境申报速查</summary>
           <div class="guide-content">
