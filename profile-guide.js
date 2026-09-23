@@ -5,6 +5,8 @@
     .guide-block{margin:0 0 12px;border:1px solid #e1e9ef;border-radius:20px;background:#fff;box-shadow:0 8px 22px rgba(16,42,67,.05);overflow:hidden}.guide-block>summary{display:flex;align-items:center;gap:10px;padding:15px 16px;color:#102a43;font-size:14px;font-weight:800;cursor:pointer;list-style:none}.guide-block>summary::-webkit-details-marker{display:none}.guide-block>summary span{display:grid;width:34px;height:34px;place-items:center;border-radius:12px;background:#edf6ff;font-size:18px}.guide-block>summary::after{content:'＋';margin-left:auto;color:#1685bb;font-size:18px}.guide-block[open]>summary::after{content:'－'}
     .module-sticky-head{position:sticky!important;top:0;z-index:24;margin:-2px -18px 0!important;padding:0 18px;background:rgba(246,248,251,.96);backdrop-filter:blur(16px)}.segmented.module-sticky-tabs{position:sticky!important;top:54px;z-index:23;margin:0 -6px 16px!important;box-shadow:0 8px 14px rgba(16,42,67,.05)}
     .basic-guide{margin-bottom:16px}.basic-guide .guide-content{padding-top:0}.basic-guide .utility-card,.basic-guide .info-card{margin:0 0 10px;border:0;box-shadow:none}.basic-guide .reference-links{margin:0 0 10px}.basic-guide .info-card:last-child{margin-bottom:0}
+    .profile-tabs .segmented.has-outfit-tab{grid-template-columns:repeat(5,minmax(0,1fr))}.profile-tabs .segmented.has-outfit-tab button{padding:2px;font-size:9px;white-space:nowrap}
+    .outfit-list{display:grid;gap:10px}.outfit-day{display:grid;grid-template-columns:64px 1fr;gap:10px;padding:13px;border:1px solid #e1e9ef;border-radius:18px;background:#fff;box-shadow:0 6px 18px rgba(16,42,67,.05)}.outfit-date{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:13px;background:#eaf4ff;color:#0878bd;text-align:center}.outfit-date b{font-size:14px}.outfit-date small{font-size:9px}.outfit-copy h3{margin:0;color:#102a43;font-size:13px;line-height:1.35}.outfit-weather{margin:3px 0 7px;color:#7a8999;font-size:9px}.outfit-wear{display:flex;flex-wrap:wrap;gap:5px}.outfit-wear span{padding:4px 7px;border-radius:999px;background:#f2f5f7;color:#41566c;font-size:9px;font-weight:700}.outfit-note{margin:8px 0 0;color:#b05e16;font-size:9px;line-height:1.5}
     .guide-content{padding:0 12px 14px}.guide-callout{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:12px;border-radius:14px;background:#fff4e8;color:#8c5019}.guide-callout strong{display:block;font-size:14px}.guide-callout small{display:block;margin-top:2px;font-size:10px}.guide-callout i{font-size:24px;font-style:normal}.declaration-grid{display:grid;gap:9px}.declaration-card{padding:12px;border-radius:15px}.declaration-card h3{display:flex;align-items:center;gap:6px;margin:0 0 9px;font-size:13px}.declaration-row{display:grid;grid-template-columns:58px 1fr;gap:7px;padding:6px 0;border-top:1px solid rgba(255,255,255,.7)}.declaration-row:first-of-type{border-top:0}.declaration-row b{font-size:9px;line-height:1.55}.declaration-row p{display:flex;flex-wrap:wrap;gap:5px;margin:0}.declaration-row span{padding:4px 7px;border-radius:999px;background:rgba(255,255,255,.8);font-size:9px;font-weight:700;line-height:1.25}.declare{background:#fff4dc;color:#805300}.allowed{background:#eaf8ef;color:#217644}.banned{background:#fff0f0;color:#a83636}.limit-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:5px}.limit-grid div{padding:8px 2px;border-radius:10px;background:rgba(255,255,255,.82);text-align:center}.limit-grid strong{display:block;font-size:11px}.limit-grid small{font-size:8px}.guide-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.guide-links a{padding:8px 10px;border-radius:999px;background:#eaf4ff;color:#0878bd;font-size:11px;font-weight:700;text-decoration:none}
     .app-guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.travel-app{padding:12px;border:1px solid #e2eaf0;border-radius:16px;background:#f8fbfd}.travel-app header{display:flex;align-items:center;gap:8px}.travel-app i{display:grid;width:34px;height:34px;place-items:center;border-radius:11px;background:#fff;font-size:20px;font-style:normal;box-shadow:0 3px 10px rgba(16,42,67,.08)}.travel-app b{color:#102a43;font-size:12px}.travel-app small{display:block;margin-top:2px;color:#1685bb;font-size:9px;font-weight:700}.travel-app p{margin:8px 0 0;color:#60758b;font-size:10px;line-height:1.55}.travel-app a{color:inherit;text-decoration:none}.app-skip{margin-top:10px;padding:10px 12px;border-radius:14px;background:#f2f5f7;color:#6f7f92;font-size:11px;line-height:1.65}
     @media(max-width:380px){.app-guide-grid{grid-template-columns:1fr}}
@@ -13,7 +15,50 @@
 
   const app = (icon, name, badge, text, url) => `<article class="travel-app"><a href="${url}" target="_blank" rel="noopener"><header><i>${icon}</i><span><b>${name}</b><small>${badge}</small></span></header><p>${text}</p></a></article>`;
 
+  const clothing = [
+    '冲锋衣（防风防水）×1','薄羽绒（可压缩）×1','防晒衣或薄长袖 ×1','短袖 T恤 ×4','长袖／卫衣 ×2','长裤（含1条速干）×3','短裤 ×1–2','防水舒适步行鞋 ×1','折叠伞 ×1','防晒霜 ×1','大围巾 ×1','内衣&内裤 ×6套（中途洗1次）','袜子 ×6双（中途洗1次）','拖鞋 ×1','帽子 ×1','墨镜 ×1'
+  ];
+  const outfits = [
+    ['9/25','周五','广州 → 香港转机','33°/25° · 雷阵雨边缘',['短袖','速干裤','随身薄外套'],'机上空调偏冷，薄外套随身。'],
+    ['9/26','周六','悉尼市区购物与巴兰加鲁日落','29°/17° · 晴，傍晚或有阵雨',['短袖','短裤或长裤','薄外套','折叠伞'],'晚间降温，去巴兰加鲁前加外套。'],
+    ['9/27','周日','观鲸、岩石区与环形码头','21°/15° · 多云，阵雨60%',['短袖','薄羽绒','冲锋衣','长裤'],'海上风寒明显，相机注意防水。'],
+    ['9/28','周一','东部海滩与沃森湾','21°/14° · 多云，阵雨50%',['长袖','薄羽绒','冲锋衣','长裤'],'雨停或中午回暖时可脱最外层。'],
+    ['9/29','周二','Kiama 与 Gerringong 海岸线','20–21°/13–14° · 云渐散',['短袖','冲锋衣','长裤'],'草坡与海边风大，早晚务必穿外套。'],
+    ['9/30','周三','悉尼市区人文购物线','22°/12° · 阴',['短袖或长袖','薄外套','长裤'],'商场内外温差较大，方便穿脱。'],
+    ['10/1','周四','悉尼飞墨尔本与市区活动','悉尼28° → 墨尔本23°/11°',['短袖','长裤','冲锋衣'],'白天短袖，抵达墨尔本后加冲锋衣。'],
+    ['10/2','周五','大洋路与十二门徒','14°/8° · 雨，海风大',['长袖','薄羽绒','冲锋衣','长裤','防水鞋'],'全程最冷，按三层完整穿着。'],
+    ['10/3','周六','蒸汽火车与菲利普岛企鹅归巢','14°/5° · 晴，夜间约11°',['长袖','薄羽绒','冲锋衣','长裤','大围巾'],'清晨和企鹅岛夜间都要重点保暖。'],
+    ['10/4','周日','墨尔本市区与南墨尔本市场','16°/8° · 晴，UV较高',['短袖','冲锋衣','长裤','墨镜','帽子'],'晴天仍偏凉，注意防晒；当天进入夏令时。'],
+    ['10/5','周一','墨尔本 → 香港 → 广州返程','墨尔本22° → 香港28°',['短袖','薄外套','长裤'],'厚衣装箱底，薄外套留在随身行李。']
+  ];
+
+  function outfitContent() {
+    return '<div class="outfit-list">'+outfits.map(day=>'<article class="outfit-day"><div class="outfit-date"><b>'+day[0]+'</b><small>'+day[1]+'</small></div><div class="outfit-copy"><h3>'+day[2]+'</h3><p class="outfit-weather">'+day[3]+'</p><div class="outfit-wear">'+day[4].map(item=>'<span>'+item+'</span>').join('')+'</div><p class="outfit-note">'+day[5]+'</p></div></article>').join('')+'</div>';
+  }
+
+  function enhanceProfile() {
+    const tabs = document.querySelector('.profile-tabs .segmented');
+    const shell = tabs?.closest('.segment-shell');
+    if (!tabs || !shell) return;
+    if (!tabs.querySelector('[data-segment="my-outfits"]')) {
+      tabs.insertAdjacentHTML('beforeend','<button role="tab" data-segment="my-outfits" aria-selected="false">行程穿搭建议</button>');
+      shell.insertAdjacentHTML('beforeend','<section class="segment-panel" data-segment-panel="my-outfits" hidden>'+outfitContent()+'</section>');
+      tabs.classList.add('has-outfit-tab');
+    }
+    const luggagePanel = shell.querySelector('[data-segment-panel="my-luggage"]');
+    const group = [...(luggagePanel?.querySelectorAll('.luggage-group') || [])].find(item=>item.querySelector('h2')?.textContent.includes('衣物与穿搭'));
+    if (group && !group.classList.contains('clothing-updated')) {
+      let saved = {};
+      try { saved = JSON.parse(localStorage.getItem('au-mobile-checks-v2') || '{}'); } catch {}
+      group.classList.add('clothing-updated');
+      group.innerHTML = '<h2>衣物与穿搭<small>'+clothing.length+'项</small></h2>'+clothing.map((item,index)=>'<label><input type="checkbox" data-check="luggage-clothing-'+index+'" '+(saved['luggage-clothing-'+index]?'checked':'')+'><span>'+item+'</span></label>').join('');
+      const intro = luggagePanel.querySelector('.tab-intro');
+      if (intro) intro.textContent = '共'+luggagePanel.querySelectorAll('.luggage-group label').length+'项 · 勾选状态仅保存在当前手机';
+    }
+  }
+
   function mount() {
+    enhanceProfile();
     const currentView = location.hash.slice(1);
     if (currentView === 'profile' || currentView === 'shop-photo') {
       const main = document.getElementById('main');
